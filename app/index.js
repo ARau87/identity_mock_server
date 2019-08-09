@@ -9,8 +9,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const pdfDocument = require('pdfkit');
 const { renderString, renderTemplateFile } = require('template-file');
-const customerID = process.env.CUSTOMER_ID || '576843675765';
-const customerCode = process.env.CUSTOMER_CODE || 'eu7rzgf4h4rf74z4fz';
+const customerID = process.env.CUSTOMER_ID || require('../config').CUSTOMER_ID;
+const customerCode = process.env.CUSTOMER_CODE || require('../config').CUSTOMER_CODE;
 
 
 const database = new JsonDB(new Config('db', true, false, '/'));
@@ -23,6 +23,8 @@ app.use(basicAuth({
 })); 
 
 app.get('/getStatus/:orderId', (req, res) => {
+
+    console.log('[INFO] getStatus called');
 
     try {
 
@@ -44,6 +46,8 @@ app.get('/getStatus/:orderId', (req, res) => {
 });
 
 app.get('/getIdentDataPDF/:orderId', (req, res) => {
+
+    console.log('[INFO] getIdentDataPDF called');
 
     try {
 
@@ -83,6 +87,7 @@ app.get('/getIdentDataPDF/:orderId', (req, res) => {
 });
 
 app.get('/getIdentData/:orderId', (req, res) => {
+    console.log('[INFO] getIdentData called');
 
     try {
 
@@ -116,6 +121,8 @@ app.get('*', (req, res) => {
 
 app.put('/putOrder', (req, res) => {
 
+    console.log('[INFO] putOrder called');
+
     if(req.body.Product !== null && req.body.Add !== null ){
 
         const order = {...req.body, status: []};
@@ -147,6 +154,8 @@ app.put('*', (req, res) => {
 });
 
 app.post('/addStatus/:orderId', (req, res) => {
+
+    console.log('[INFO] addStatus called');
 
     if(req.body !== {} && req.body.Kind && req.body.Time){
         try {
@@ -193,6 +202,8 @@ app.post('/addStatus/:orderId', (req, res) => {
 });
 
 app.post('/addDriverLicense/:orderId', (req, res) => {
+
+    console.log('[INFO] addDriverLicense called');
 
     if(req.body !== {} && req.body.LicenceNo && req.body.Classes){
         try {
