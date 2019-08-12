@@ -2,13 +2,12 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const {JsonDB} = require('node-json-db');
 const {Config} = require('node-json-db/dist/lib/JsonDBConfig');
-const fs = require('fs');
 const uniqid = require('uniqid');
 const hash = require('object-hash');
 const app = express();
 const bodyParser = require('body-parser');
 const pdfDocument = require('pdfkit');
-const { renderString, renderTemplateFile } = require('template-file');
+const { renderTemplateFile } = require('template-file');
 const customerID = process.env.CUSTOMER_ID || require('../config').CUSTOMER_ID;
 const customerCode = process.env.CUSTOMER_CODE || require('../config').CUSTOMER_CODE;
 
@@ -212,9 +211,9 @@ app.post('/addDriverLicense/:orderId', (req, res) => {
 
             if(savedOrder){
 
-                const doesStatusExist = savedOrder.status.find(s => s.Kind && s.Kind === req.body.Kind);
-                if(doesStatusExist) {
-                    res.status(400).send({message: "Status is already set!"})
+                const doesDriverLicenseExist = savedOrder.IdentData.DriverLicense == req.body.Classes;
+                if(doesDriverLicenseExist) {
+                    res.status(400).send({message: "License is already set!"})
                 }
                 else {
 
@@ -224,7 +223,7 @@ app.post('/addDriverLicense/:orderId', (req, res) => {
                             ...savedOrder.IdentData,
                             DriverLicence: {
                                 Classes: req.body.Classes,
-                                LicenceNo: req.body.CardNo,
+                                LicenceNo: req.body.LicenceNo,
                                 DateOfIssue: req.body.DateOfIssue || new Date(Date.now() - 100000),
                             }
                         }
@@ -259,11 +258,12 @@ app.post('*', (req, res) => {
 });
 
 app.delete('/delIdentdata/:orderId', (req, res) => {
+    console.log('[INFO] delIdentdata called');
 
     try {
 
-        database.getData(`/orders/${req.params.orderId}`);
-        database.delete(`/orders/${req.params.orderId}`);
+        const savedOrder = database.getData(`/orders/${req.params.orderId}`);
+        //database.delete(`/orders/${req.params.orderId}`);
         res.status(202).send();
 
     }
