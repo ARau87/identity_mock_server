@@ -4,6 +4,10 @@ To reduce the effort (and be more independent) while testing connections to Iden
 This server simulates the most common endpoints of the real API but also provides endpoints to manipulate the identity orders. It is also possible to change
 the orders directly as this server uses a json file to save incoming data.
 
+## Requirements
+
+To run the server Node.js 12.3.1 or greater is required. Please download the installer from [here](https://nodejs.org/en/). The server should run on Windows 10 (tested) as well as on Unix systems.
+
 ## Installation
 
 1. Clone the project
