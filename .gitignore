@@ -5,3 +5,6 @@ config.js
 *.log
 .vscode
 
+*.postman_collection.json
+*.postman_environment.json
+

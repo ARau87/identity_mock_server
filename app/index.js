@@ -185,7 +185,7 @@ app.post('/addStatus/:orderId', (req, res) => {
                 }
             }
 
-            res.status(400).send();
+            else res.status(400).send();
 
         }
         catch(err){
@@ -196,7 +196,7 @@ app.post('/addStatus/:orderId', (req, res) => {
 
     }
 
-    res.status(400).send();
+    else res.status(400).send();
 
 });
 
