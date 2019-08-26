@@ -171,7 +171,7 @@ app.post('/addStatus/:orderId', (req, res) => {
 
                     const editedOrder = {
                         ...savedOrder,
-                        Executed: req.body.Kind == 6 || req.body.Kind == 17 ? new Date(Date.now()) : savedOrder.Executed,
+                        Executed: new Date(Date.now()),
                         status: [
                             ...savedOrder.status,
                             {...req.body}
